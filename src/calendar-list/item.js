@@ -1,7 +1,7 @@
-import React, { Component } from "react"
-import { Text, View } from "react-native"
-import Calendar from "../calendar"
-import styleConstructor from "./style"
+import React, { Component } from "react";
+import { Text, View } from "react-native";
+import Calendar from "../calendar";
+import styleConstructor from "./style";
 
 class CalendarListItem extends Component {
   static defaultProps = {
@@ -51,6 +51,7 @@ class CalendarListItem extends Component {
           dayComponent={this.props.dayComponent}
           disabledByDefault={this.props.disabledByDefault}
           showWeekNumbers={this.props.showWeekNumbers}
+          gesturesEnabled={this.props.gesturesEnabled}
         />
       )
     } else {

@@ -76,7 +76,9 @@ class Calendar extends Component {
     // Handler which gets executed when press arrow icon left. It receive a callback can go next month
     onPressArrowRight: PropTypes.func,
     // Called when we press the header date
-    onHeaderDatePress: PropTypes.func
+    onHeaderDatePress: PropTypes.func,
+    // Allow gesture controls
+    gesturesEnabled: PropTypes.bool
   };
 
   constructor(props) {
@@ -333,6 +335,34 @@ class Calendar extends Component {
       directionalOffsetThreshold: 80,
       gestureIsClickThreshold: 5
     };
+    if (this.props.gesturesEnabled) {
+      return (
+        <View style={[this.style.container, this.props.style]}>
+          <CalendarHeader
+            onHeaderDatePress={this.props.onHeaderDatePress}
+            theme={this.props.theme}
+            hideArrows={this.props.hideArrows}
+            month={this.state.currentMonth}
+            addMonth={this.addMonth}
+            showIndicator={indicator}
+            firstDay={this.props.firstDay}
+            renderArrow={this.props.renderArrow}
+            monthFormat={this.props.monthFormat}
+            hideDayNames={this.props.hideDayNames}
+            weekNumbers={this.props.showWeekNumbers}
+            onPressArrowLeft={this.props.onPressArrowLeft}
+            onPressArrowRight={this.props.onPressArrowRight}
+          />
+          <GestureRecognizer
+            onSwipe={direction => this.handleSwipe(direction)}
+            config={SWIPE_CONFIG}
+            style={this.style.monthView}
+          >
+            {weeks}
+          </GestureRecognizer>
+        </View>
+      );
+    }
     return (
       <View style={[this.style.container, this.props.style]}>
         <CalendarHeader
@@ -350,13 +380,7 @@ class Calendar extends Component {
           onPressArrowLeft={this.props.onPressArrowLeft}
           onPressArrowRight={this.props.onPressArrowRight}
         />
-        <GestureRecognizer
-          onSwipe={direction => this.handleSwipe(direction)}
-          config={SWIPE_CONFIG}
-          style={this.style.monthView}
-        >
-          {weeks}
-        </GestureRecognizer>
+        {weeks}
       </View>
     );
   }

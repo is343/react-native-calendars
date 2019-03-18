@@ -298,6 +298,11 @@ export interface CalendarBaseProps {
    *  an object of the holidays to render. The keys are the holiday dates.
    */
   holidays?: object
+  
+  /**
+   *  When true, allows gesture controls. Default = false
+   */
+  gesturesEnabled?: boolean
 }
 
 export class Calendar extends React.Component<CalendarMarkingProps & CalendarBaseProps> {}

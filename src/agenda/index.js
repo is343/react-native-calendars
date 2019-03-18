@@ -103,6 +103,8 @@ export default class AgendaView extends Component {
     agendaLoadingIndicator: PropTypes.bool,
     // holiday info. The keys are the date of the holiday
     holidays: PropTypes.object,
+    // Allow gesture controls
+    gesturesEnabled: PropTypes.bool
   };
 
   constructor(props) {
@@ -553,6 +555,7 @@ export default class AgendaView extends Component {
         disabledByDefault={this.props.disabledByDefault}
         displayLoadingIndicator={this.props.displayLoadingIndicator}
         showWeekNumbers={this.props.showWeekNumbers}
+        gesturesEnabled={this.props.gesturesEnabled}
         theme={{
           "stylesheet.calendar.main": {
             container: {
@@ -632,6 +635,7 @@ export default class AgendaView extends Component {
                 dayComponent={this.props.dayComponent}
                 disabledByDefault={this.props.disabledByDefault}
                 showWeekNumbers={this.props.showWeekNumbers}
+                gesturesEnabled={this.props.gesturesEnabled}
                 theme={{
                   "stylesheet.day.basic": {
                     base: {

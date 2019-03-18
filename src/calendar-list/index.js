@@ -1,15 +1,13 @@
-import React, {Component} from 'react';
-import {
-  FlatList, Platform, Dimensions,
-} from 'react-native';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { Dimensions, FlatList, Platform } from 'react-native';
 import XDate from 'xdate';
-
-import {xdateToData, parseDate} from '../interface';
-import styleConstructor from './style';
-import dateutils from '../dateutils';
 import Calendar from '../calendar';
+import dateutils from '../dateutils';
+import { parseDate, xdateToData } from '../interface';
 import CalendarListItem from './item';
+import styleConstructor from './style';
+
 
 const {width} = Dimensions.get('window');
 
@@ -121,8 +119,6 @@ class CalendarList extends Component {
     let diffMonths = Math.round(this.state.openDate.clone().setDate(1).diffMonths(scrollTo.clone().setDate(1)));
     const size = this.props.horizontal ? this.props.calendarWidth : this.props.calendarHeight;
     const scrollAmount = (size * this.props.pastScrollRange) + (diffMonths * size);
-    //console.log(month, this.state.openDate);
-    //console.log(scrollAmount, diffMonths);
     this.listView.scrollToOffset({offset: scrollAmount, animated: false});
   }
 

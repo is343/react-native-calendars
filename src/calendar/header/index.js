@@ -106,19 +106,20 @@ class CalendarHeader extends Component {
         </TouchableOpacity>
       )
     }
+    const {onHeaderDatePress} = this.props
     let indicator
     if (this.props.showIndicator) {
-      indicator = <ActivityIndicator style={this.props.onHeaderDatePress && {paddingRight: 10}}/>
+      indicator = <ActivityIndicator style={onHeaderDatePress && {paddingRight: 10}}/>
     }
     return (
       <View>
         <View style={this.style.header}>
           {leftArrow}
           <TouchableOpacity 
-            disabled={!this.props.onHeaderDatePress}
-            onPress={this.props.onHeaderDatePress}
+            disabled={!onHeaderDatePress}
+            onPress={onHeaderDatePress}
             style={[{ flexDirection: "row" },
-              {
+            onHeaderDatePress && {
                 borderWidth: 1,
                 borderRadius: 35,
                 borderColor: "white",
