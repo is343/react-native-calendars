@@ -103,12 +103,12 @@ class ReservationListItem extends Component {
   );
 
   render() {
-    const { reservation, date } = this.props.item;
+    const { reservation, date, day } = this.props.item;
     const {
       isHoliday,
       dayOfTheWeek,
       dateString
-    } = this.getHolidayAndDayOfTheWeek(date);
+    } = this.getHolidayAndDayOfTheWeek(xdateToData(day));
     let content;
     let holidayContent;
     let firstItem = false;
@@ -125,7 +125,7 @@ class ReservationListItem extends Component {
       content = this.props.renderItem(reservation, firstItem);
       lastItem = reservation.last;
     } else {
-      content = this.props.renderEmptyDate(dateString);
+      content = this.props.renderEmptyDate(day);
     }
     // holiday component
     if ((firstItem || !reservation) && isHoliday && holidayContent) {
@@ -177,8 +177,8 @@ class ReservationListItem extends Component {
             dayOfTheWeek,
             lastItem
           )}
-          <View style={{ flex: 1 }}>
-            {this.props.renderEmptyDate(dateString)}
+          <View style={{ flex: 1, borderColor: "red", borderWidth: 2 }}>
+            {this.props.renderEmptyDate(xdateToData(day))}
           </View>
         </View>
       </View>

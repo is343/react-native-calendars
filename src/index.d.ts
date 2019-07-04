@@ -485,7 +485,7 @@ export interface AgendaProps<TItem> extends CalendarBaseProps {
   /**
    *  Specify how empty date content with no items should be rendered.
    */
-  renderEmptyDate: (dateString: string) => React.ReactNode
+  renderEmptyDate: (date: DateObject) => React.ReactNode
 
   /**
    *  Specify how each item should be rendered in agenda.
