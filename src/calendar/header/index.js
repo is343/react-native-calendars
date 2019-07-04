@@ -57,17 +57,17 @@ class CalendarHeader extends Component {
   }
 
   onPressLeft() {
-    const { onPressArrowLeft } = this.props
-    if (typeof onPressArrowLeft === "function") {
-      return onPressArrowLeft(this.substractMonth)
+    const {onPressArrowLeft} = this.props;
+    if (typeof onPressArrowLeft === 'function') {
+      return onPressArrowLeft(this.substractMonth, this.props.month);
     }
     return this.substractMonth()
   }
 
   onPressRight() {
-    const { onPressArrowRight } = this.props
-    if (typeof onPressArrowRight === "function") {
-      return onPressArrowRight(this.addMonth)
+    const {onPressArrowRight} = this.props;
+    if (typeof onPressArrowRight === 'function') {
+      return onPressArrowRight(this.addMonth, this.props.month);
     }
     return this.addMonth()
   }
@@ -109,10 +109,10 @@ class CalendarHeader extends Component {
     const {onHeaderDatePress} = this.props
     let indicator
     if (this.props.showIndicator) {
-      indicator = <ActivityIndicator style={onHeaderDatePress && {paddingRight: 10}}/>
+      indicator = <ActivityIndicator style={onHeaderDatePress && {paddingRight: 10}} color={this.props.theme && this.props.theme.indicatorColor}/>
     }
     return (
-      <View>
+      <View style={this.props.style}>
         <View style={this.style.header}>
           {leftArrow}
           <TouchableOpacity 

@@ -18,7 +18,7 @@ export default function styleConstructor(theme = {}) {
       width: "100%",
       backgroundColor: appStyle.backgroundColor,
     },
-    calendar: {
+    calendar: { // not in use
       flex: 1,
       borderBottomWidth: 1,
       borderColor: appStyle.separatorColor,
