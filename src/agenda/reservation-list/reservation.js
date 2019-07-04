@@ -125,7 +125,7 @@ class ReservationListItem extends Component {
       content = this.props.renderItem(reservation, firstItem);
       lastItem = reservation.last;
     } else {
-      content = this.props.renderEmptyDate(date);
+      content = this.props.renderEmptyDate(dateString);
     }
     // holiday component
     if ((firstItem || !reservation) && isHoliday && holidayContent) {
@@ -177,7 +177,9 @@ class ReservationListItem extends Component {
             dayOfTheWeek,
             lastItem
           )}
-          <View style={{ flex: 1 }}>{this.props.renderEmptyDate(date)}</View>
+          <View style={{ flex: 1 }}>
+            {this.props.renderEmptyDate(dateString)}
+          </View>
         </View>
       </View>
     );
