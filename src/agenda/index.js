@@ -104,7 +104,11 @@ export default class AgendaView extends Component {
     // holiday info. The keys are the date of the holiday
     holidays: PropTypes.object,
     // Allow gesture controls
-    gesturesEnabled: PropTypes.bool
+    gesturesEnabled: PropTypes.bool,
+    // Handler which gets executed when the header is rendered
+    onHeaderLayout: PropTypes.func,
+    // passes the method to close the agenda to the parent
+    passCloseAgendaMethodToParent: PropTypes.func,
   };
 
   constructor(props) {
@@ -238,6 +242,10 @@ export default class AgendaView extends Component {
   }
 
   componentWillMount() {
+    const {passCloseAgendaMethodToParent} = this.props
+    if(passCloseAgendaMethodToParent && typeof passCloseAgendaMethodToParent === "function"){
+      passCloseAgendaMethodToParent(this.closeAgenda);
+    }
     this._isMounted = true;
     this.loadReservations(this.props);
   }
@@ -276,6 +284,15 @@ export default class AgendaView extends Component {
     } else {
       this.loadReservations(props);
     }
+  }
+
+  closeAgenda = () => {
+    if(this.state.agendaOpen){
+      this.setState({calendarScrollable: true, agendaOpen: false}) 
+      this.setScrollPadPosition(0, true)
+      return true
+    }
+    return false
   }
 
   enableCalendarScrolling() {
@@ -338,10 +355,14 @@ export default class AgendaView extends Component {
   }
 
   chooseDay(d, optimisticScroll) {
+    const {passCloseAgendaMethodToParent, onAgendaDateChange, onCalendarToggled, loadItemsForMonth, onDayPress} = this.props
+    if(passCloseAgendaMethodToParent && typeof passCloseAgendaMethodToParent === "function"){
+      passCloseAgendaMethodToParent(this.closeAgenda);
+    }
     const day = parseDate(d);
     // update the parent component on date change
-    if (this.props.onAgendaDateChange && typeof this.props.onAgendaDateChange === "function") {
-      this.props.onAgendaDateChange(day.toString())
+    if (onAgendaDateChange && typeof onAgendaDateChange === "function") {
+      onAgendaDateChange(day.toString())
     }
     this.setState({
       calendarScrollable: false,
@@ -349,8 +370,8 @@ export default class AgendaView extends Component {
       calendarMonthChanged: false,
       selectedDay: day.clone()
     });
-    if (this.props.onCalendarToggled) {
-      this.props.onCalendarToggled(false);
+    if (onCalendarToggled) {
+      onCalendarToggled(false);
     }
     if (!optimisticScroll) {
       this.setState({
@@ -359,11 +380,11 @@ export default class AgendaView extends Component {
     }
     this.setScrollPadPosition(this.initialScrollPadPosition(), true);
     this.calendar.scrollToDay(day, this.calendarOffset(), true);
-    if (this.props.loadItemsForMonth) {
-      this.props.loadItemsForMonth(xdateToData(day));
+    if (loadItemsForMonth) {
+      loadItemsForMonth(xdateToData(day));
     }
-    if (this.props.onDayPress) {
-      this.props.onDayPress(xdateToData(day));
+    if (onDayPress) {
+      onDayPress(xdateToData(day));
     }
   }
 
@@ -529,6 +550,7 @@ export default class AgendaView extends Component {
     const calendar = (
       <Calendar
         onHeaderDatePress={this.props.onHeaderDatePress}
+        onHeaderLayout={this.props.onHeaderLayout}
         holidays={this.props.holidays || {}}
         renderArrow={this.props.renderArrow}
         calendarWidth={this.viewWidth}

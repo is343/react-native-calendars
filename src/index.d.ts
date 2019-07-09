@@ -7,7 +7,7 @@
 // TypeScript Version: 2.8
 
 import * as React from "react";
-import { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { LayoutChangeEvent, StyleProp, TextStyle, ViewStyle } from "react-native";
 export import LocaleConfig = require("xdate")
 
 export interface DateObject {
@@ -170,11 +170,13 @@ export type CalendarMarkingProps =
 
 export interface DayComponentProps {
   date: DateObject
-  marking: false | Marking[]
-  onPress: () => any
-  onLongPress: () => any
+  marking: MultiDotMarking
+  onPress: (argument: any) => any
+  onLongPress: (argument: any) => any
   state: "" | "selected" | "disabled" | "today"
   theme: CalendarTheme
+  dayOfTheWeek: number
+  isHoliday: boolean
 }
 
 export interface CalendarBaseProps {
@@ -303,6 +305,11 @@ export interface CalendarBaseProps {
    *  When true, allows gesture controls. Default = false
    */
   gesturesEnabled?: boolean
+  
+  /**
+   *  Called when `CalendarHeader` is rendered
+   */
+  onHeaderLayout?: (event: LayoutChangeEvent) => void
 }
 
 export class Calendar extends React.Component<CalendarMarkingProps & CalendarBaseProps> {}

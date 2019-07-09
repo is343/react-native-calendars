@@ -1,9 +1,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { View, ViewPropTypes } from "react-native";
-import GestureRecognizer, {
-  swipeDirections
-} from "react-native-swipe-gestures";
+import GestureRecognizer, { swipeDirections } from "react-native-swipe-gestures";
 import XDate from "xdate";
 import dateutils from "../dateutils";
 import { parseDate, xdateToData } from "../interface";
@@ -71,14 +69,16 @@ class Calendar extends Component {
     disabledByDefault: PropTypes.bool,
     // Show week numbers. Default = false
     showWeekNumbers: PropTypes.bool,
-    // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+    // Handler which gets executed when press arrow icon left. It receives a callback can go back month
     onPressArrowLeft: PropTypes.func,
-    // Handler which gets executed when press arrow icon left. It receive a callback can go next month
+    // Handler which gets executed when press arrow icon left. It receives a callback can go next month
     onPressArrowRight: PropTypes.func,
     // Called when we press the header date
     onHeaderDatePress: PropTypes.func,
     // Allow gesture controls
-    gesturesEnabled: PropTypes.bool
+    gesturesEnabled: PropTypes.bool,
+    // Handler which gets executed when the header is rendered
+    onHeaderLayout: PropTypes.func
   };
 
   constructor(props) {
@@ -352,6 +352,7 @@ class Calendar extends Component {
             weekNumbers={this.props.showWeekNumbers}
             onPressArrowLeft={this.props.onPressArrowLeft}
             onPressArrowRight={this.props.onPressArrowRight}
+            onHeaderLayout={this.props.onHeaderLayout}
           />
           <GestureRecognizer
             onSwipe={direction => this.handleSwipe(direction)}
@@ -379,6 +380,7 @@ class Calendar extends Component {
           weekNumbers={this.props.showWeekNumbers}
           onPressArrowLeft={this.props.onPressArrowLeft}
           onPressArrowRight={this.props.onPressArrowRight}
+          onHeaderLayout={this.props.onHeaderLayout}
         />
         {weeks}
       </View>

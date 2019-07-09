@@ -20,6 +20,7 @@ class CalendarHeader extends Component {
     onPressArrowLeft: PropTypes.func,
     onPressArrowRight: PropTypes.func,
     onHeaderDatePress: PropTypes.func,
+    onHeaderLayout: PropTypes.func,
   }
 
   static defaultProps = {
@@ -112,7 +113,13 @@ class CalendarHeader extends Component {
       indicator = <ActivityIndicator style={onHeaderDatePress && {paddingRight: 10}}/>
     }
     return (
-      <View>
+      <View
+        onLayout={event => {
+          if(this.props.onHeaderLayout && typeof this.props.onHeaderLayout === "function"){
+            this.props.onHeaderLayout(event);
+          }
+        }}
+      >
         <View style={this.style.header}>
           {leftArrow}
           <TouchableOpacity 
