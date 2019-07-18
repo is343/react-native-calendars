@@ -402,6 +402,7 @@ export default class AgendaView extends Component {
         renderHoliday={this.props.renderHoliday}
         renderEmptyDate={this.props.renderEmptyDate}
         reservations={this.props.items}
+        loadItemsForMonth={this.props.loadItemsForMonth}
         selectedDay={this.state.selectedDay}
         renderEmptyData={this.props.renderEmptyData}
         topDay={this.state.topDay}

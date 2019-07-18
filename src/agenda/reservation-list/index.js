@@ -26,6 +26,8 @@ class ReactComp extends Component {
     // the value of date key kas to be an empty array []. If there exists no value for date key it is
     // considered that the date in question is not yet loaded
     reservations: PropTypes.object,
+    // callback that gets called when items for a certain month should be loaded (month became visible)
+    loadItemsForMonth: PropTypes.func,
 
     selectedDay: PropTypes.instanceOf(XDate),
     topDay: PropTypes.instanceOf(XDate),
@@ -211,6 +213,11 @@ class ReactComp extends Component {
         refreshControl={this.props.refreshControl}
         refreshing={this.props.refreshing || false}
         onRefresh={this.props.onRefresh}
+        onEndReached={() => {
+          const {loadItemsForMonth} = this.props
+          if(loadItemsForMonth && typeof loadItemsForMonth === "function"){
+            loadItemsForMonth()
+          }}}
         ListFooterComponent={this.props.agendaLoadingIndicator && <ActivityIndicator/>}
       />
     )
