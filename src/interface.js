@@ -9,13 +9,17 @@ function padNumber(n) {
 
 function xdateToData(xdate) {
   const dateString = xdate.toString('yyyy-MM-dd');
-  return {
-    year: xdate.getFullYear(),
-    month: xdate.getMonth() + 1,
-    day: xdate.getDate(),
-    timestamp: XDate(dateString, true).getTime(),
-    dateString: dateString
-  };
+  try{
+    return {
+      year: xdate.getFullYear(),
+      month: xdate.getMonth() + 1,
+      day: xdate.getDate(),
+      timestamp: XDate(dateString, true).getTime(),
+      dateString: dateString
+    };
+  } catch(error){
+    console.warn("xdateToData Error:", error.message)
+  }
 }
 
 function parseDate(d) {

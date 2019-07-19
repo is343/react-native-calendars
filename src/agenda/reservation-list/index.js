@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import XDate from "xdate";
 import dateutils from "../../dateutils";
+import { xdateToData } from "../../interface";
 import Reservation from "./reservation";
 import styleConstructor from "./style";
 
@@ -195,6 +196,7 @@ class ReactComp extends Component {
     ) {
       return <ActivityIndicator style={{ marginTop: 80 }} />
     }
+    console.log("this.state.reservations", this.state.reservations)
     return (
       <FlatList
         ref={c => (this.list = c)}
@@ -216,7 +218,10 @@ class ReactComp extends Component {
         onEndReached={() => {
           const {loadItemsForMonth} = this.props
           if(loadItemsForMonth && typeof loadItemsForMonth === "function"){
-            loadItemsForMonth()
+            const {reservations} = this.state
+            const lastItem = reservations[reservations.length - 1]
+            const dateData = xdateToData(lastItem.date)
+            loadItemsForMonth(dateData)
           }}}
         ListFooterComponent={this.props.agendaLoadingIndicator && <ActivityIndicator/>}
       />
