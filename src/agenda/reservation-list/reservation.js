@@ -129,7 +129,7 @@ class ReservationListItem extends Component {
       content = this.props.renderEmptyDate(xdateToData(day));
     }
     // holiday component - only one reservation
-    if ((firstItem || !reservation) && lastItem && isHoliday && holidayContent) {
+    if ((firstItem && reservation) && isHoliday && holidayContent) {
       return (
         <View>
           <View
@@ -155,7 +155,8 @@ class ReservationListItem extends Component {
             reservation,
             isHoliday,
             dayOfTheWeek,
-            lastItem
+            lastItem,
+            true
           )}
           <View style={{ flex: 1 }}>
             {this.props.renderEmptyDate(xdateToData(day))}
@@ -164,7 +165,7 @@ class ReservationListItem extends Component {
         </View>
       );
     }
-    // holiday component
+    // holiday component - no reservations
     if ((firstItem || !reservation) && isHoliday && holidayContent) {
       return (
         <View>

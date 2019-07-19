@@ -196,7 +196,6 @@ class ReactComp extends Component {
     ) {
       return <ActivityIndicator style={{ marginTop: 80 }} />
     }
-    console.log("this.state.reservations", this.state.reservations)
     return (
       <FlatList
         ref={c => (this.list = c)}
