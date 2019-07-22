@@ -520,6 +520,11 @@ export interface AgendaProps<TItem> extends CalendarBaseProps {
   onAgendaDateChange: (dateString: string) => void
 
   /**
+   * Called when when rendered. Passes the methods to close the agenda and the status of the agenda to the parent
+   */
+  passMethodsToParent: (methods: {[x: string]: ()=> boolean}) => void
+
+  /**
    *  Initially visible month. Default = Date()
    */
   selected?: TCalendarDate

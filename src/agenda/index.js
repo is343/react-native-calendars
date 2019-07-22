@@ -107,8 +107,8 @@ export default class AgendaView extends Component {
     gesturesEnabled: PropTypes.bool,
     // Handler which gets executed when the header is rendered
     onHeaderLayout: PropTypes.func,
-    // passes the method to close the agenda to the parent
-    passCloseAgendaMethodToParent: PropTypes.func,
+    // Passes the methods to close the agenda and the status of the agenda to the parent
+    passMethodsToParent: PropTypes.func,
   };
 
   constructor(props) {
@@ -242,9 +242,13 @@ export default class AgendaView extends Component {
   }
 
   componentWillMount() {
-    const {passCloseAgendaMethodToParent} = this.props
-    if(passCloseAgendaMethodToParent && typeof passCloseAgendaMethodToParent === "function"){
-      passCloseAgendaMethodToParent(this.closeAgenda);
+    const {passMethodsToParent} = this.props
+    if(passMethodsToParent && typeof passMethodsToParent === "function"){
+      const methods = {
+        closeAgenda: this.closeAgenda,
+        getAgendaStatus: this.getAgendaStatus,
+      }
+      passMethodsToParent(methods);
     }
     this._isMounted = true;
     this.loadReservations(this.props);
@@ -285,6 +289,8 @@ export default class AgendaView extends Component {
       this.loadReservations(props);
     }
   }
+
+  getAgendaStatus = () => this.state.agendaOpen
 
   closeAgenda = () => {
     if(this.state.agendaOpen){
@@ -355,9 +361,13 @@ export default class AgendaView extends Component {
   }
 
   chooseDay(d, optimisticScroll) {
-    const {passCloseAgendaMethodToParent, onAgendaDateChange, onCalendarToggled, loadItemsForMonth, onDayPress} = this.props
-    if(passCloseAgendaMethodToParent && typeof passCloseAgendaMethodToParent === "function"){
-      passCloseAgendaMethodToParent(this.closeAgenda);
+    const {passMethodsToParent, onAgendaDateChange, onCalendarToggled, loadItemsForMonth, onDayPress} = this.props
+    if(passMethodsToParent && typeof passMethodsToParent === "function"){
+      const methods = {
+        closeAgenda: this.closeAgenda,
+        getAgendaStatus: this.getAgendaStatus,
+      }
+      passMethodsToParent(methods);
     }
     const day = parseDate(d);
     // update the parent component on date change
