@@ -584,15 +584,23 @@ export default class AgendaView extends Component {
         markedDates={this.generateMarkings()}
         onPressArrowLeft={(defaultMinusMonthFxn) => {
           if(typeof this.props.onPressArrowLeft === "function") {
-            typeof this.props.onPressArrowLeft(defaultMinusMonthFxn)
+            typeof this.props.onPressArrowLeft(() => {
+              this.addMonth(-1)
+              defaultMinusMonthFxn()
+            })
+          } else {
+            this.addMonth(-1)
           }
-          this.addMonth(-1)
         }}
-        onPressArrowRight={(defaultAddMonthFxn) => {
+        onPressArrowRight={(defaultMinusMonthFxn) => {
           if(typeof this.props.onPressArrowRight === "function") {
-            typeof this.props.onPressArrowRight(defaultAddMonthFxn)
+            typeof this.props.onPressArrowRight(() => {
+              this.addMonth(1)
+              defaultMinusMonthFxn()
+            })
+          } else {
+            this.addMonth(1)
           }
-          this.addMonth(1)
         }}
         onDayPress={this._chooseDayFromCalendar.bind(this)}
         dayComponent={this.props.calendarDayComponent}
