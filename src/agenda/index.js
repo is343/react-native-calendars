@@ -109,6 +109,8 @@ export default class AgendaView extends Component {
     onHeaderLayout: PropTypes.func,
     // Passes the methods to close the agenda and the status of the agenda to the parent
     passMethodsToParent: PropTypes.func,
+    // Called whenever the agenda is opened or closed
+    updateAgendaStatus: PropTypes.func,
   };
 
   constructor(props) {
@@ -293,15 +295,20 @@ export default class AgendaView extends Component {
   getAgendaStatus = () => this.state.agendaOpen
 
   closeAgenda = () => {
-    if(this.state.agendaOpen){
-      this.setState({calendarScrollable: true, agendaOpen: false}) 
-      this.setScrollPadPosition(0, true)
-      return true
+    const {updateAgendaStatus} = this.props
+    if(updateAgendaStatus && typeof updateAgendaStatus === "function"){
+      updateAgendaStatus(false)
     }
-    return false
+    this.setState({calendarScrollable: true, agendaOpen: false}) 
+    this.setScrollPadPosition(0, true)
+    return true
   }
 
   enableCalendarScrolling() {
+    const {updateAgendaStatus} = this.props
+    if(updateAgendaStatus && typeof updateAgendaStatus === "function"){
+      updateAgendaStatus(false)
+    }
     this.setState({
       calendarScrollable: true,
       agendaOpen: false
@@ -357,11 +364,10 @@ export default class AgendaView extends Component {
   };
 
   _chooseDayFromCalendar(d) {
-    this.chooseDay(d, !this.state.calendarScrollable);
-  }
-
-  chooseDay(d, optimisticScroll) {
-    const {passMethodsToParent, onAgendaDateChange, onCalendarToggled, loadItemsForMonth, onDayPress} = this.props
+    const {updateAgendaStatus, passMethodsToParent} = this.props
+    if(updateAgendaStatus && typeof updateAgendaStatus === "function"){
+      updateAgendaStatus(true)
+    }
     if(passMethodsToParent && typeof passMethodsToParent === "function"){
       const methods = {
         closeAgenda: this.closeAgenda,
@@ -369,6 +375,11 @@ export default class AgendaView extends Component {
       }
       passMethodsToParent(methods);
     }
+    this.chooseDay(d, !this.state.calendarScrollable);
+  }
+
+  chooseDay(d, optimisticScroll) {
+    const {onAgendaDateChange, onCalendarToggled, loadItemsForMonth, onDayPress} = this.props
     const day = parseDate(d);
     // update the parent component on date change
     if (onAgendaDateChange && typeof onAgendaDateChange === "function") {
