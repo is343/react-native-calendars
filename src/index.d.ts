@@ -502,7 +502,7 @@ export interface AgendaProps<TItem> extends CalendarBaseProps {
   /**
    *  Specify how each holiday should be rendered in agenda.
    */
-  renderHoliday: (item: TItem, firstDayInDay: boolean) => React.ReactNode
+  renderHoliday: (holiday: string) => React.ReactNode
 
   /**
    *  Specify how agenda knob should look like.
